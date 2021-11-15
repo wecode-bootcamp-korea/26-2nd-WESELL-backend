@@ -1,4 +1,4 @@
-from pathlib import Path
+from pathlib        import Path
 from my_settings    import DATABASES, SECRET_KEY
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
