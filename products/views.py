@@ -1,10 +1,8 @@
-import json
-
 from django.http      import JsonResponse
 from django.views     import View
-from django.db.models import Min, Avg, Count
+from django.db.models import Q, Min, Avg, Count
 
-from products.models import Product, ProductSize
+from products.models import Product, ProductSize, Category, Brand, Size
 from biddings.models import BidType, Order
 
 class ProductDetailView(View):
@@ -60,3 +58,49 @@ class ProductDetailView(View):
         }
         
         return JsonResponse({'result' : result}, status = 200)
+
+class ProductListView(View):
+    def get(self, request):
+        try:
+            keyword       = request.GET.get('keyword')
+            sorting       = request.GET.get('sort', 'id')
+            fast_shipping = request.GET.get('fast_shipping')
+
+            sort = {
+                'id'            : 'id',
+                'release_date'  : "release_date" ,
+                '-release_date' : '-release_date',
+                'price'         : 'price',
+                '-price'        : '-price'
+            }
+
+            q = Q()
+
+            if keyword:
+                q = Q(brand__name=keyword) | Q(en_name__icontains=keyword) | Q(ko_name__contains=keyword)
+
+            if fast_shipping:
+                q = Q(fast_shipping=fast_shipping)
+
+            products = Product.objects.filter(q).select_related('brand')\
+                                                .annotate(price=Min('productsize__bidding__price', filter=Q(productsize__bidding__bid_type_id=2)))\
+                                                .order_by(sort[sorting])
+            
+            result = {
+                'productslist': [{
+                    'id'           : product.id,
+                    'brand'        : product.brand.name,
+                    'en_name'      : product.en_name,
+                    'ko_name'      : product.ko_name,
+                    'buy_now_price': product.price,
+                    'image_url'    : product.images.values('url')[0],
+                    'fast_shipping': product.fast_shipping
+                } for product in products],
+                'category'     : [category.name for category in Category.objects.all()],
+                'brand'        : [brand.name for brand in Brand.objects.all()],
+                'size'         : [size.name for size in Size.objects.all()]
+            }
+            return JsonResponse({'products': result}, status=200)
+
+        except :         
+            return JsonResponse({'message': "Doesnotexist"}, status=404)

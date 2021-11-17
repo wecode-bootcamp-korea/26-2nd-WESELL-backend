@@ -24,6 +24,7 @@ class Product(models.Model):
     size          = models.ManyToManyField('Size', through='ProductSize')
     fast_shipping = models.BooleanField(null=True)
 
+
     class Meta:
         db_table = 'products'
 
