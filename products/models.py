@@ -22,7 +22,8 @@ class Product(models.Model):
     category      = models.ForeignKey('Category',on_delete=models.CASCADE)
     brand         = models.ForeignKey('Brand',on_delete=models.CASCADE)
     size          = models.ManyToManyField('Size', through='ProductSize')
-    
+    fast_shipping = models.BooleanField(null=True)
+
     class Meta:
         db_table = 'products'
 
