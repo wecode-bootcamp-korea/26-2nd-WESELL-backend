@@ -32,7 +32,7 @@ class SigninTest(TestCase):
         headers             = {'HTTP_Authorization': '가짜 access_token'}
         response            = client.get('/users/signin', **headers)
         
-        access_token = jwt.encode({'id': 2}, SECRET_KEY, algorithm=ALGORITHM)
+        access_token = jwt.encode({'id': 5}, SECRET_KEY, algorithm=ALGORITHM)
 
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.json(), { 'access_token' : access_token })

@@ -23,8 +23,8 @@ class Order(models.Model):
     status      = models.CharField(max_length=40)
     productsize = models.ForeignKey('products.ProductSize',on_delete=models.CASCADE)
     price       = models.PositiveIntegerField()
-    created_at  = models.DateTimeField(auto_now_add=True)
-    updated_at  = models.DateTimeField(auto_now=True)
+    created_at  = models.DateField(auto_now_add=True)
+    updated_at  = models.DateField(auto_now=True)
 
     class Meta:
         db_table = 'orders'
