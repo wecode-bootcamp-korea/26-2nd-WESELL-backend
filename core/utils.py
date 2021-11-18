@@ -20,7 +20,7 @@ def login_decorator(func):
 
         except User.DoesNotExist:
             return JsonResponse({'message' : 'INVALID_USER'}, status = 401)
-
+            
         return func(self, request, *args, **kwargs)
 
     return wrapper

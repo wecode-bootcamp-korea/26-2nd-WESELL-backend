@@ -360,6 +360,6 @@ zsdoc/data
 
 my_settings.py
 
-/csv
+/data
 
-db_uploader.py
+uploader.py
