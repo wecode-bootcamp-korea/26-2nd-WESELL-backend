@@ -2,7 +2,7 @@ import os
 import pymysql
 
 from pathlib        import Path
-from my_settings    import DATABASES
+from my_settings    import DATABASES, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
 
 pymysql.install_as_MySQLdb()
 
@@ -17,6 +17,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ["INSTA_SECRET_KEY"]
 
 ALGORITHM = 'HS256'
+
+AWS_ACCESS_KEY_ID       = AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY   = AWS_SECRET_ACCESS_KEY
+AWS_REGION              = 'ap-northeast-2'
+AWS_STORAGE_BUCKET_NAME = 'wesell'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -34,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'storages',
     'users',
     'products',
     'biddings',
