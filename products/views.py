@@ -68,7 +68,7 @@ class ProductListView(View):
 
             sort = {
                 'id'            : 'id',
-                'release_date'  : "release_date" ,
+                'release_date'  : 'release_date' ,
                 '-release_date' : '-release_date',
                 'price'         : 'price',
                 '-price'        : '-price'
@@ -103,4 +103,4 @@ class ProductListView(View):
             return JsonResponse({'products': result}, status=200)
 
         except :         
-            return JsonResponse({'message': "Doesnotexist"}, status=404)
+            return JsonResponse({'message': 'Doesnotexist'}, status=404)
